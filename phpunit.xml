@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phpunit
+        bootstrap="./php2blade"
+        colors="true"
+        verbose="true"
+        stopOnFailure="false">
+
+    <testsuites>
+        <testsuite name="TestSuite">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+
+</phpunit>

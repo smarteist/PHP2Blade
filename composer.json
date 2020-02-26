@@ -1,0 +1,20 @@
+{
+    "name": "ali/php2blade",
+    "description": "It is a converter that converts PHP files to Blade files",
+    "type": "library",
+    "license": "apache",
+    "authors": [
+        {
+            "name": "Ali Hn",
+            "email": "ali.hosseini.sr@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+           "App\\": "app"
+        }
+    },
+    "require": {
+        "phpunit/phpunit": "^8.5"
+    }
+}
