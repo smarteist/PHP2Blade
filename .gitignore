@@ -1,5 +1,3 @@
 ./idea
 ./vendor
-./in
-./out
 composer.lock
