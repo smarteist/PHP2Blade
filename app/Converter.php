@@ -79,9 +79,9 @@ class Converter
     private function phpKeywordsToBlade($tag)
     {
         foreach ($this->keywords as $keyword) {
-            $openingRegex = "/({$keyword}\s*\((.*)\)\s*):/m";
-            $middleRegex = "/($keyword\s*):/m";
-            $closingRegex = "/(end{$keyword}\s*);/m";
+            $openingRegex = "/\s({$keyword}\s*\((.*)\)\s*):/m";
+            $middleRegex = "/\s($keyword\s*):/m";
+            $closingRegex = "/\s(end{$keyword}\s*);/m";
             preg_match_all($openingRegex, $tag, $openingMatches, PREG_SET_ORDER, 0);
             preg_match_all($middleRegex, $tag, $middleMatches, PREG_SET_ORDER, 0);
             preg_match_all($closingRegex, $tag, $closingMatches, PREG_SET_ORDER, 0);
