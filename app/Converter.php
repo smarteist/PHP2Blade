@@ -122,7 +122,7 @@ class Converter
 
     private function phpEchoToBladeExpression($tag)
     {
-        $regex = "(@php\s*echo\s*(.*)\s*;\s*@endphp)";
+        $regex = "(@php\s*echo\s*(.*).*;.*\s@endphp)";
         preg_match_all($regex, $tag, $echoBlock, PREG_SET_ORDER, 0);
         $echoBlock = is_array($echoBlock) ? $echoBlock : array();
         foreach ($echoBlock as $echo) {
