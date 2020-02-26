@@ -25,19 +25,29 @@ class Converter
         $this->outputContent = $this->fileContent;
 
         foreach ($this->extractPhpTags() as $tag) {
-            $output = $this->phpTagToBlade($tag[0]);
-            $output = $this->phpKeywordsToBlade($output);
-            $output = $this->phpEchoToBladeExpression($output);
-            $output = $this->cleanEmptyBladeBlocks($output);
+            $output = $this->applyConversion($tag[0]);
             $this->outputContent = str_replace($tag[0], $output, $this->outputContent);
         }
 
-        $this->resolveNonClosingTags();
+        // if file have a non closing php tag apply conversion jobs again
+        if ($this->resolveNonClosingTags()) {
+            $this->outputContent = $this->applyConversion($this->outputContent);
+        }
+
     }
 
     public function getConvertedOutput()
     {
         return $this->outputContent;
+    }
+
+    private function applyConversion($tag)
+    {
+        $output = $this->phpTagToBlade($tag);
+        $output = $this->phpKeywordsToBlade($output);
+        $output = $this->phpEchoToBladeExpression($output);
+        $output = $this->cleanEmptyBladeBlocks($output);
+        return $output;
     }
 
     private function extractPhpTags()
@@ -53,7 +63,10 @@ class Converter
         if (strpos($this->outputContent, '<?php') !== false) {
             $this->outputContent = str_replace('<?php', '@php' . PHP_EOL, $this->outputContent);
             $this->outputContent .= '@endphp';
+            return true;
         }
+
+        return false;
     }
 
     private function phpTagToBlade($tag)
@@ -66,9 +79,9 @@ class Converter
     private function phpKeywordsToBlade($tag)
     {
         foreach ($this->keywords as $keyword) {
-            $openingRegex = "/({$keyword}\s*\((.*)\)\s*:)/";
-            $middleRegex = "($keyword\s*:)";
-            $closingRegex = "(end{$keyword};)";
+            $openingRegex = "/({$keyword}\s*\((.*)\)\s*):/m";
+            $middleRegex = "/($keyword\s*):/m";
+            $closingRegex = "/(end{$keyword}\s*);/m";
             preg_match_all($openingRegex, $tag, $openingMatches, PREG_SET_ORDER, 0);
             preg_match_all($middleRegex, $tag, $middleMatches, PREG_SET_ORDER, 0);
             preg_match_all($closingRegex, $tag, $closingMatches, PREG_SET_ORDER, 0);
