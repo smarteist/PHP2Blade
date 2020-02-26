@@ -41,9 +41,9 @@ class Converter
         return $this->outputContent;
     }
 
-    private function applyConversion($part)
+    private function applyConversion($tag)
     {
-        $output = $this->phpTagToBlade($part);
+        $output = $this->phpTagToBlade($tag);
         $output = $this->phpKeywordsToBlade($output);
         $output = $this->phpEchoToBladeExpression($output);
         $output = $this->cleanEmptyBladeBlocks($output);
