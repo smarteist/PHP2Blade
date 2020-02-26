@@ -1,2 +1,4 @@
 ./vendor
+./in
+./out
 composer.lock
