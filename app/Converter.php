@@ -23,15 +23,13 @@ class Converter
 
         // apply conversion on php tags
         foreach ($this->extractPhpTags() as $tag) {
-            $output = "@php{$tag[1]}\n@endphp";
-            $output = $this->applyConversion($output);
+            $output = $this->applyConversion($tag[1]);
             $this->outputContent = str_replace($tag[0], $output, $this->outputContent);
         }
 
         // if file have a non closing php tag apply conversion jobs again
         foreach ($this->resolveNonClosingTags() as $tag) {
-            $output = "@php{$tag[1]}\n@endphp";
-            $output = $this->applyConversion($output);
+            $output = $this->applyConversion($tag[1]);
             $this->outputContent = str_replace($tag[0], $output, $this->outputContent);
         }
 
@@ -48,12 +46,12 @@ class Converter
          * doing conversion jobs one by one
          * Warning : order of conversion is important
          */
-        $output = $this->phpKeywordsToBlade($tag);
+        $output = "@php\n{$tag}\n@endphp";
+        $output = $this->phpKeywordsToBlade($output);
         $output = $this->convertCommentsToBlade($output);
         $output = $this->cleanEmptyBladeBlocks($output);
         $output = $this->phpEchoToBladeExpression($output);
-        $output = $this->phpSingleToBladeInlineTag($output);
-        return $output;
+        return str_replace(["@php\n", "\n@endphp"], ["@php", "@endphp"], $output);
     }
 
     private function extractPhpTags()
@@ -150,14 +148,4 @@ class Converter
         return $tag;
     }
 
-    private function phpSingleToBladeInlineTag($tag)
-    {
-        $regex = "/(@php\s*(.*\s*\(\s*?\)\s*)\s*;?.*\s*@endphp)/m";
-        preg_match_all($regex, $tag, $echoBlock, PREG_SET_ORDER, 0);
-        $echoBlock = is_array($echoBlock) ? $echoBlock : array();
-        foreach ($echoBlock as $echo) {
-            $tag = str_replace($echo[0], "@php($echo[2])", $tag);
-        }
-        return $tag;
-    }
 }
