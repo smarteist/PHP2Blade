@@ -152,7 +152,7 @@ class Converter
 
     private function phpSingleToBladeInlineTag($tag)
     {
-        $regex = "/(@php\s*(.*\s*\(.*\)\s*)\s*;?.*\s*@endphp)/m";
+        $regex = "/(@php\s*(.*\s*\(\s*?\)\s*)\s*;?.*\s*@endphp)/m";
         preg_match_all($regex, $tag, $echoBlock, PREG_SET_ORDER, 0);
         $echoBlock = is_array($echoBlock) ? $echoBlock : array();
         foreach ($echoBlock as $echo) {
