@@ -29,7 +29,7 @@ class Converter
 
         // if file have a non closing php tag apply conversion jobs again
         foreach ($this->resolveNonClosingTags() as $tag) {
-            $output = $this->applyConversion($tag[1]);
+            $output = $this->applyConversion($tag[1] . PHP_EOL);
             $this->outputContent = str_replace($tag[0], $output, $this->outputContent);
         }
 
@@ -143,7 +143,7 @@ class Converter
         preg_match_all($regex, $tag, $echoBlock, PREG_SET_ORDER, 0);
         $echoBlock = is_array($echoBlock) ? $echoBlock : array();
         foreach ($echoBlock as $echo) {
-            $tag = str_replace($echo[0], "{{ $echo[2] }}", $tag);
+            $tag = str_replace($echo[0], "{!! $echo[2] !!}", $tag);
         }
         return $tag;
     }
