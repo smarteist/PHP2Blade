@@ -1,6 +1,6 @@
 # PHP to Blade Converter
 
-PHP2Blade is a php library for converting regular php view files to laravel blade template engine files.
+PHP2Blade is a php library for converting ordinary php view files to laravel blade template engine files.
 
 ## Installation
 
