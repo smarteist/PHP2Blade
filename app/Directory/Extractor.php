@@ -26,7 +26,7 @@ class Extractor
 
             $path = strval($iterator->current());
 
-            if (stripos(pathinfo($path, PATHINFO_BASENAME), ".php")) {
+            if (self::endsWith(pathinfo($path, PATHINFO_BASENAME), ".php")) {
                 $file_paths[] = $path;
             }
             //while have next maybe throw an exception.
@@ -38,6 +38,15 @@ class Extractor
             }
         }
         return $file_paths;
+    }
+
+    public static function endsWith($haystack, $needle)
+    {
+        $length = strlen($needle);
+        if ($length == 0) {
+            return false;
+        }
+        return (substr($haystack, -$length) === $needle);
     }
 
     public static function createBladeFile($file, $content)
