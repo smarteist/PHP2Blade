@@ -17,9 +17,13 @@ class Converter
     private $outputContent;
     private $removeComments = false;
 
-    public function convert($file)
+    public function convert($source)
     {
-        $this->outputContent = file_get_contents($file);
+        if (is_file($source)) {
+            $this->outputContent = file_get_contents($source);
+        } else {
+            $this->outputContent = $source;
+        }
 
         // apply conversion on php tags
         foreach ($this->extractPhpTags() as $tag) {
