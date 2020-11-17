@@ -14,6 +14,10 @@ your output files will be saved in ```/out``` directory in the same project.
 ```bash
 php php2blade <files directory> <optional output directory>
 ```
+To removing comments we can add ```--removecomments``` flag:
+```bash
+php php2blade --removecomments <files directory> <optional output directory>
+```
 ## Output Examples
 Some examples of converted code from WooCommerce templates.
 

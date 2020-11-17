@@ -190,24 +190,17 @@ class Converter
      */
     private function convertCommentsToBlade($tag)
     {
-        $singleLineCommentsRegex = '/\/\/\s*(.+?)(?=[\n\r]|\*\))/m';
-        $multiLineCommentsRegex = '/\/\*\*?(.*)\*\//m';
+        $singleLineCommentsRegex = '/\/\/(.*)[\n\r]{1}/m';
+        $multiLineCommentsRegex = '/\/\*([\s\S]*?)\*\//m';
         preg_match_all($singleLineCommentsRegex, $tag, $matchesSingle, PREG_SET_ORDER, 0);
         preg_match_all($multiLineCommentsRegex, $tag, $matchesMultiline, PREG_SET_ORDER, 0);
         $matchesSingle = $matchesSingle ? $matchesSingle : [];
         $matchesMultiline = $matchesMultiline ? $matchesMultiline : [];
-        foreach ($matchesSingle as $comment) {
+        foreach (array_merge($matchesSingle, $matchesMultiline) as $comment) {
             if ($this->removeComments) {
-                $tag = str_replace($comment[0], '', $tag);
+                $tag = preg_replace([$singleLineCommentsRegex, $multiLineCommentsRegex], '', $tag);
             } else {
-                $tag = "{{-- $comment[1] --}}\n" . str_replace($comment[0], '', $tag);
-            }
-        }
-        foreach ($matchesMultiline as $comment) {
-            if ($this->removeComments) {
-                $tag = str_replace($comment[0], '', $tag);
-            } else {
-                $tag = "{{-- $comment[1] --}}\n" . str_replace($comment[0], '', $tag);
+                $tag = "{{-- $comment[1] --}}\n" . preg_replace([$singleLineCommentsRegex, $multiLineCommentsRegex], '', $tag);
             }
         }
         return $tag;
@@ -243,6 +236,14 @@ class Converter
             $tag = str_replace($echo[0], "{!! $echo[2] !!}", $tag);
         }
         return $tag;
+    }
+
+    /**
+     * @param bool $removeComments
+     */
+    public function setRemoveComments(bool $removeComments): void
+    {
+        $this->removeComments = $removeComments;
     }
 
 }
