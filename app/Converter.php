@@ -38,9 +38,14 @@ class Converter
     private $outputContent;
 
     /**
-     * @var bool indicates comments should be kept or not.
+     * @var bool indicates comments should be removed or not.
      */
     private $removeComments = false;
+
+    /**
+     * @var bool indicates comments should be kept or not.
+     */
+    private $keepComments = false;
 
     /**
      * Applies conversion jobs on given source and saves in {$this->outputContent}
@@ -107,7 +112,9 @@ class Converter
             }
         }
 
-        $output = $this->convertCommentsToBlade($output);
+        if (!$this->keepComments) {
+            $output = $this->convertCommentsToBlade($output);
+        }
         $output = $this->phpEchoToBladeExpression($output);
         $output = $this->cleanEmptyBladeBlocks($output);
         return $output;
@@ -244,6 +251,14 @@ class Converter
     public function setRemoveComments(bool $removeComments): void
     {
         $this->removeComments = $removeComments;
+    }
+
+    /**
+     * @param bool $keepComments
+     */
+    public function setKeepComments(bool $keepComments): void
+    {
+        $this->keepComments = $keepComments;
     }
 
 }
