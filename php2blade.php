@@ -24,6 +24,7 @@ if (!isset($argv[1]) || !is_dir(end($argv))) {
 
     $options = [
         'removeComments' => false,
+        'keepComments' => false,
         'inputDir' => null,
         'outputDir' => null,
     ];
@@ -33,6 +34,9 @@ if (!isset($argv[1]) || !is_dir(end($argv))) {
         if ($arg === '--removecomments') {
             $options['removeComments'] = true;
         }
+        if ($arg === '--keepcomments') {
+            $options['keepComments'] = true;
+        }
     }
     $options['inputDir'] = is_dir($argv[(sizeof($argv) - 2)]) ? $argv[(sizeof($argv) - 2)] : $argv[(sizeof($argv) - 1)];
     $options['outputDir'] = is_dir($argv[(sizeof($argv) - 2)]) ? $argv[(sizeof($argv) - 1)] . DIRECTORY_SEPARATOR : __DIR__ . '/out/';
@@ -41,6 +45,7 @@ if (!isset($argv[1]) || !is_dir(end($argv))) {
         $files = Extractor::scan($options['inputDir']);
         $converter = new Converter();
         $converter->setRemoveComments($options['removeComments']);
+        $converter->setKeepComments($options['keepComments']);
 
         foreach ($files as $file) {
 
