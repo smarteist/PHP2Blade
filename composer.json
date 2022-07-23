@@ -1,8 +1,12 @@
 {
   "name": "ali/php2blade",
+  "version": "1.0.0",
   "description": "It is a converter that converts PHP files to Blade syntax",
   "type": "library",
   "license": "apache",
+  "scripts": {
+    "test": "phpunit"
+  },
   "authors": [
     {
       "name": "Ali Hn",
