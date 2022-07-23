@@ -165,6 +165,7 @@ class CLI
             'titleColor' => 'white',
             'contentColor' => 'cyan',
             'padding' => 1,
+            'margin' => 2,
             'align' => 'left',
         ]))->getBox(
             $helpContent,
@@ -183,6 +184,7 @@ class CLI
             'titleColor' => 'white',
             'contentColor' => 'cyan',
             'padding' => 1,
+            'margin' => 2,
             'align' => 'left',
         ]))->getBox(
             $message,

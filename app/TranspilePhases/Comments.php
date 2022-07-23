@@ -13,8 +13,8 @@ class Comments extends TranspilePhase
             return;
         foreach ($this->getPhpTags() as $php) {
             $tag = $php[0];
-            $singleLineCommentsRegex = '/\/\/([^\n\r]*)\n/';
-            $multiLineCommentsRegex = '/\/\*([\s\S]*?)\*\//m';
+            $singleLineCommentsRegex = '/\/\/([^\n\r]*?)[\n\r]/';
+            $multiLineCommentsRegex = '/\/\*+([\w\W]*?)\*+\//m';
             preg_match_all($singleLineCommentsRegex, $tag, $matchesSingle, PREG_SET_ORDER, 0);
             preg_match_all($multiLineCommentsRegex, $tag, $matchesMultiline, PREG_SET_ORDER, 0);
             $matchesSingle = $matchesSingle ?: [];
