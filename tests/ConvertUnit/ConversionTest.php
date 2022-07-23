@@ -4,7 +4,7 @@
 namespace Tests\ConvertUnit;
 
 
-use App\Converter;
+use App\CLI;
 use Tests\MainTestCase;
 
 class ConversionTest extends MainTestCase
@@ -14,7 +14,7 @@ class ConversionTest extends MainTestCase
 
     protected function setUp(): void
     {
-        $this->converter = new Converter();
+        $this->converter = new CLI();
         parent::setUp();
     }
 

@@ -3,6 +3,7 @@
 namespace App\Directory;
 
 use Exception;
+use FilesystemIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -17,24 +18,14 @@ class Extractor
     {
         /**Get all files and directories using recursive iterator.*/
         $iterator = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($directory, RecursiveDirectoryIterator::SKIP_DOTS),
+            new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS),
             RecursiveIteratorIterator::LEAVES_ONLY
         );
         /**Add all of iterated files in array */
         $file_paths = [];
-        while ($iterator->valid()) {
-
-            $path = strval($iterator->current());
-
+        foreach ($iterator as $path){
             if (self::endsWith(pathinfo($path, PATHINFO_BASENAME), ".php")) {
-                $file_paths[] = $path;
-            }
-            //while have next maybe throw an exception.
-            try {
-                $iterator->next();
-            } catch (Exception $ignored) {
-                var_dump($ignored);
-                break;
+                $file_paths[] = strval($path);
             }
         }
         return $file_paths;
