@@ -66,7 +66,7 @@ class CLIStr
         ]
     ];
 
-    private $value = "";
+    private $value;
 
     private $textStyle = "0";
 
@@ -94,7 +94,19 @@ class CLIStr
 
     public static function consoleWrite($string, $removePrev = false)
     {
-        echo($removePrev ? "\x1b[2K\r" . $string : $string);
+        global $consolePrevLines;
+        if ($removePrev) {
+            if (is_int($consolePrevLines))
+                self::clearLines($consolePrevLines);
+            $consolePrevLines = sizeof(explode(PHP_EOL, $string));
+        }
+        echo $string.PHP_EOL;
+    }
+
+    public static function clearLines($n = 1)
+    {
+        // move up and clear
+        echo self::strRepeat("\033[1A" . "\x1b[2K", $n);
     }
 
     public static function tableRow($cols = [], $colsWidth = [], $separator = '')
@@ -125,16 +137,6 @@ class CLIStr
     public function length()
     {
         return strlen($this->value);
-    }
-
-    public function __set($name, $value)
-    {
-        $this->value = $value;
-    }
-
-    public function __get($name)
-    {
-        return $this->value;
     }
 
     public function __toString()
