@@ -18,7 +18,7 @@ class Keywords extends TranspilePhase
         "while", // while()
         "elseif", // elseif()
         "switch", // switch()
-        'case', // case ""
+        'case', // case "" **
     ];
 
     /**
@@ -55,16 +55,15 @@ class Keywords extends TranspilePhase
      */
     public function parametricKeywordsToBlade(string &$context, string $keyword)
     {
-        preg_match_all("/\b({$keyword}\s*(\((.*)\)|['\"].*['\"])\s*):/m", $context, $parametrics, PREG_SET_ORDER);
-        $parametrics = is_array($parametrics) ? $parametrics : [];
-        foreach ($parametrics as $parametric) {
-            if (sizeof($parametric) === 4) {
-                $replacement = " @endphp " . PHP_EOL . " @{$keyword} ($parametric[3]) " . PHP_EOL . " @php ";
-            } else {
-                $replacement = " @endphp " . PHP_EOL . " @{$keyword} ($parametric[2]) " . PHP_EOL . " @php ";
-            }
-            $context = str_replace($parametric[0], $replacement, $context);
+        if ($keyword === 'case') {
+            $regex = "/\b{$keyword}\s*\(?([\w\W]+?)\)?\s*:/m";
+        } else {
+            $regex = "/\b{$keyword}\s*\(((?:[^()]|\((?1)\))*+)\)\s*:/m";
         }
+        $replacement = " @endphp " . PHP_EOL . " @{$keyword} ($1) " . PHP_EOL . " @php ";
+
+        $context = preg_replace($regex, $replacement, $context);
+
     }
 
     /**

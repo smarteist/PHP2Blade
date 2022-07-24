@@ -83,8 +83,8 @@ class CLI
         try {
             // The order of the phases is very important
             $transpiler->apply(PhpTags::class)
-                ->apply(Keywords::class)
                 ->apply(Comments::class)
+                ->apply(Keywords::class)
                 ->apply(BladeExpr::class)
                 ->apply(Cleanance::class);
 
