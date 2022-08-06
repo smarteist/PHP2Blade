@@ -47,7 +47,7 @@ class ConversionTest extends MainTestCase
 
     public function testBladeExpressionInHtml()
     {
-        $this->converter->convert("<h2 attr=\"<?php echo 'test'?>\"></h2>");
+        $this->converter->convert("<h2 attr=\"@php echo 'test' @endphp\"></h2>");
         $out = $this->converter->getConvertedOutput();
         $this->assertEquals("<h2 attr=\"{!! 'test' !!}\"></h2>", $out);
     }

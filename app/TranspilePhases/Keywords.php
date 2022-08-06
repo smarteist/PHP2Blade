@@ -18,7 +18,7 @@ class Keywords extends TranspilePhase
         "while", // while()
         "elseif", // elseif()
         "switch", // switch()
-        'case', // case "" **
+        'case', // case "" | case ("")
     ];
 
     /**

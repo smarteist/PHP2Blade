@@ -3,12 +3,10 @@
 
 use App\CLI;
 
-require_once './vendor/autoload.php';
-
+define('ABSPATH', __DIR__);
 error_reporting(E_ALL);
 ini_set('display_errors', true);
-define('ABSPATH', __DIR__);
-
+require_once ABSPATH . '/vendor/autoload.php';
 
 // matches args in form of => command
 $commands = preg_grep('/(^[^-].*)/', $argv);
