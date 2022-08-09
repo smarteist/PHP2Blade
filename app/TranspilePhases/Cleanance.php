@@ -12,8 +12,8 @@ class Cleanance extends TranspilePhase
         foreach ($this->getPhpTags() as $php) {
             $tag = $php[0];
             $tag = preg_replace('/@php[\s;]*@endphp/m', '', $tag);
-            $tag = preg_replace('/@php\s+/m', "@php ", $tag);
-            $tag = preg_replace('/\s+@endphp/m', " @endphp", $tag);
+            $tag = preg_replace('/\s*@php\s+/m', "@php ", $tag);
+            $tag = preg_replace('/\s+@endphp\s*/m', " @endphp", $tag);
             $this->subject = str_replace($php[0], $tag, $this->subject);
         }
     }

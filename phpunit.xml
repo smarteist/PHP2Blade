@@ -7,7 +7,7 @@
 
     <testsuites>
         <testsuite name="TestSuite">
-            <directory>tests</directory>
+            <directory suffix=".php">tests/ConvertUnit</directory>
         </testsuite>
     </testsuites>
 
